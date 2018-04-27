@@ -78,7 +78,7 @@ class Tanulo
 				atl=0;
 			else
 			atl=atl/jegyek_szama;
-			return round(atl);
+			return trunc(atl);
 		}
 	string get_nev()		{ return this->nev; }
 	double get_atlag()		{ return this->atlag; }
@@ -275,6 +275,19 @@ void diak_rendez(vector<diak>& d_vect, int also, int felso);
 int feloszt(vector<diak>& d_vect, int also, int felso);
 void fajl_vizsgalo_v_jegyek(string fajl,vector<Tanulo>& Tanulok_vektor,vector<jegy>& v_jegyek);
 using namespace boost::program_options;
+int evfolyam_atlag(vector<Tanulo>& Tanulok_vektor)
+	{
+		int van_vedes=0;
+		int evf_atl=0;
+		for(int i=0;i<Tanulok_vektor.size();i++)
+			{
+			if(Tanulok_vektor[i].atlag!=1)
+			{	van_vedes++;			
+				evf_atl+=Tanulok_vektor[i].atlag;
+			}
+			}
+		return evf_atl/van_vedes;	
+	}
 int main(int argc, char* argv[])
 {
 /*std::string defops = "City/Debrecen/Oktatás/Informatika/Programozás/DEIK/Prog1/Példák/Előadás;City/Debrecen/Szórakozás/Könyv/Ismeretterjesztő/Informatika;City/Debrecen/Oktatás/Informatika/Programozás/Tankönyv\ olvasás";*/
@@ -388,6 +401,10 @@ boost::program_options::options_description desc("Options");
 		Tanulok_vektor[i].print();
 	}
 		}
+	cout<<"Az evfolyam átlaga "<<evfolyam_atlag(Tanulok_vektor)<<endl;
+	int vedesek=std::accumulate(Tanulok_vektor.begin(),Tanulok_vektor.end(),0, [](int i, Tanulo& t){return i+t.atlag;});
+	int emberek=std::accumulate(Tanulok_vektor.begin(),Tanulok_vektor.end(),0, [](int i, Tanulo& t){return i+1;});
+	cout<<vedesek/emberek<<endl;
 }
 
 void point_sum(string path, int& points , vector<feladat>& v_feladat)
