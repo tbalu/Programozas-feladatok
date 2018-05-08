@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <curses.h>
 #include <unistd.h>
-
+//gcc pattogplabda.c -o labda lncurses
 int main (void)
 {
 	int xj = 0, xk = 0, yj=0, yk=0;
